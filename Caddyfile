@@ -1,0 +1,46 @@
+# =============================================================================
+#  Caddy 配置 —— 自动 HTTPS
+#
+#  SITE_ADDRESS 由安装脚本写进 .env，通常是 sslip.io 的免域名地址，
+#  例如 203-0-113-10.sslip.io（它会自动解析到 203.0.113.10）。
+#  Caddy 看到一个真实域名就会自动去 Let's Encrypt 申请证书并自动续期。
+#
+#  客户如果有自己的域名，把 .env 里的 SITE_ADDRESS 换成域名、
+#  DNS 指到这台服务器，然后 docker compose up -d 即可，不用改这个文件。
+# =============================================================================
+
+{
+	email {$ACME_EMAIL}
+	# 关掉管理接口，减少暴露面
+	admin off
+}
+
+{$SITE_ADDRESS} {
+	encode zstd gzip
+
+	# WebSocket（收件箱实时推送）走同一个反代，Caddy 会自动处理 Upgrade
+	reverse_proxy app:3000 {
+		header_up X-Real-IP {remote_host}
+		# AI 有时要十几秒才返回，别过早切断
+		transport http {
+			read_timeout 120s
+			write_timeout 120s
+		}
+	}
+
+	header {
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		Referrer-Policy no-referrer
+		-Server
+	}
+
+	log {
+		output stdout
+		format console
+		# 只记错误，正常访问日志对客户没用还占磁盘
+		level ERROR
+	}
+}
+
+# HTTP 自动跳 HTTPS 是 Caddy 的默认行为，不用额外配置。
