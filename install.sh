@@ -20,7 +20,7 @@
 set -euo pipefail
 
 # --- 可被环境变量覆盖，方便你自己搭发行源 ---------------------------------
-RELEASE_BASE="${RELEASE_BASE:-https://oceanlightglobal.github.io/wa-cs}"
+RELEASE_BASE="${RELEASE_BASE:-https://oceanlightglobal.github.io/wa-cs-install}"
 APP_IMAGE="${APP_IMAGE:-ghcr.io/oceanlightglobal/wa-cs:latest}"
 UPDATER_IMAGE="${UPDATER_IMAGE:-ghcr.io/oceanlightglobal/wa-cs-updater:latest}"
 VERSION_MANIFEST_URL="${VERSION_MANIFEST_URL:-${RELEASE_BASE}/version.json}"
