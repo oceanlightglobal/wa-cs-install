@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publishedAt": "2026-07-28",
-  "notes": "首个正式版本。"
+  "notes": "修复 YCloud webhook 自动注册与签名校验，兼容真实 YCloud 接口。"
 }
