@@ -180,10 +180,12 @@ INITIAL_ADMIN_PASSWORD=${ADMIN_PASSWORD}
 # 内部令牌：应用调用 updater 时用，不要外泄
 UPDATER_TOKEN=${UPDATER_TOKEN}
 
-# AI 网关默认值（客户可以在后台改成任意 OpenAI 兼容接口）
-DEFAULT_AI_BASE_URL=
-DEFAULT_AI_API_KEY=
-DEFAULT_AI_MODEL=gpt-4o-mini
+# AI 网关默认值。留空的话客户在后台向导里自己填。
+# 代客户安装时可以预填，安装命令前面加上环境变量即可：
+#   DEFAULT_AI_BASE_URL=... DEFAULT_AI_API_KEY=... curl -fsSL .../install.sh | sudo bash
+DEFAULT_AI_BASE_URL=${DEFAULT_AI_BASE_URL:-}
+DEFAULT_AI_API_KEY=${DEFAULT_AI_API_KEY:-}
+DEFAULT_AI_MODEL=${DEFAULT_AI_MODEL:-}
 
 LOG_LEVEL=info
 EOF

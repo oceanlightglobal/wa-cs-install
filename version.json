@@ -1,5 +1,6 @@
 {
-  "version": "1.0.3",
-  "publishedAt": "2026-07-28",
-  "notes": "修复后台一键更新用错 Docker Compose 项目上下文的问题。更新器现在会自动识别真实项目名，避免撞容器名或挂到空数据卷。"
+  "version": "1.1.0",
+  "publishedAt": "2026-07-29",
+  "notes": "机器人变聪明了：新增行业选择，选「餐饮」后它自带这一行的常识（过敏原与清真、点菜推荐、订位、外送平台怎么处理、投诉怎么接），资料里没写的不再一句「查不到」就转给你。新增门店与菜单管理，可从本店资料一键整理成菜单草稿。新增「把人工回答教给机器人」，转一次人工资料就厚一点。新增从网址导入本店资料。新增备用 AI 接口：主接口故障时自动顶上，顾客不受影响。顾客说吃出问题（过敏、中毒、异物、送医）时，系统不经过 AI 直接通知你，并请顾客先就医。",
+  "notesEn": "The bot got smarter. Pick your industry — choose F&B and it already understands allergens and halal, recommending dishes, reservations, how delivery-platform orders work, and handling complaints, so it stops dumping every unanswered question on you. New outlets and menu management, with one-click menu drafting from your existing business info. New \"teach the bot this answer\" button: every handover makes your info a little richer. New import-from-URL. New backup AI endpoint that takes over automatically if the main one fails. If a customer reports getting ill (allergy, poisoning, foreign object, hospital), the system alerts you without going through the AI and advises them to see a doctor first."
 }

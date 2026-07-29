@@ -1,22 +1,397 @@
 <!doctype html>
+<html lang="zh">
+<head>
 <meta charset="utf-8">
-<title>WhatsApp AI 客服 · 安装</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WhatsApp AI 客服 · 安装指南</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#075e54">
+<meta name="description" content="WhatsApp AI 智能客服安装指南。一条命令装好，装在你自己的服务器上。">
 <style>
-  body{font-family:system-ui,-apple-system,"Microsoft YaHei",sans-serif;max-width:640px;margin:60px auto;padding:0 20px;line-height:1.75;color:#1e293b}
-  h1{font-size:24px}
-  pre{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:10px;overflow-x:auto;font-size:14px}
-  .muted{color:#64748b;font-size:14px}
-  li{margin:4px 0}
+  :root{
+    --bg:#fff; --fg:#1e293b; --muted:#64748b; --line:#e2e8f0;
+    --brand:#128c7e; --brand-dark:#075e54; --brand-soft:#eefbf3;
+    --warn-bg:#fffbeb; --warn-line:#fcd34d; --warn-fg:#78350f;
+    --stop-bg:#fef2f2; --stop-line:#fca5a5; --stop-fg:#7f1d1d;
+    --code-bg:#0f172a; --code-fg:#e2e8f0;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#0f172a; --fg:#e2e8f0; --muted:#94a3b8; --line:#1e293b;
+      --brand:#25d366; --brand-dark:#128c7e; --brand-soft:#0d2b23;
+      --warn-bg:#2a2109; --warn-line:#a16207; --warn-fg:#fde68a;
+      --stop-bg:#2a1212; --stop-line:#b91c1c; --stop-fg:#fecaca;
+      --code-bg:#020617; --code-fg:#e2e8f0;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);line-height:1.75;
+    font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif;
+    -webkit-text-size-adjust:100%}
+  .wrap{max-width:760px;margin:0 auto;padding:32px 20px 80px}
+  header{text-align:center;padding:24px 0 8px}
+  .logo{width:56px;height:56px;border-radius:14px;background:var(--brand-dark);
+    display:grid;place-items:center;font-size:26px;margin:0 auto 14px}
+  h1{font-size:26px;margin:0 0 6px;letter-spacing:-.01em}
+  .sub{color:var(--muted);margin:0}
+  h2{font-size:20px;margin:44px 0 12px;padding-top:20px;border-top:1px solid var(--line)}
+  h3{font-size:16px;margin:26px 0 8px}
+  p{margin:10px 0}
+  code{background:var(--brand-soft);color:var(--brand);padding:2px 6px;border-radius:5px;
+    font-size:.9em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  pre{background:var(--code-bg);color:var(--code-fg);padding:16px;border-radius:10px;
+    overflow-x:auto;font-size:13px;line-height:1.6;position:relative}
+  pre code{background:none;color:inherit;padding:0}
+  .copy{position:absolute;top:10px;right:10px;background:#334155;color:#e2e8f0;border:0;
+    border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;font-family:inherit}
+  .copy:hover{background:#475569}
+  .box{border-radius:10px;padding:14px 16px;margin:18px 0;border:1px solid}
+  .stop{background:var(--stop-bg);border-color:var(--stop-line);color:var(--stop-fg)}
+  .warn{background:var(--warn-bg);border-color:var(--warn-line);color:var(--warn-fg)}
+  .tip{background:var(--brand-soft);border-color:var(--brand);color:var(--fg)}
+  .box b{display:block;margin-bottom:4px}
+  .box b.inline{display:inline;margin:0}
+  .step{display:flex;gap:14px;margin:26px 0}
+  .num{flex:0 0 32px;height:32px;border-radius:50%;background:var(--brand-dark);color:#fff;
+    display:grid;place-items:center;font-weight:600;font-size:14px}
+  .step-body{flex:1;min-width:0}
+  .step-body h3{margin-top:2px}
+  .tbl{overflow-x:auto;margin:14px 0}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-weight:600;color:var(--muted);font-size:13px;white-space:nowrap}
+  ul{padding-left:22px;margin:10px 0}
+  li{margin:5px 0}
+  .cta{display:block;background:var(--brand-dark);color:#fff;text-decoration:none;
+    padding:15px 20px;border-radius:10px;text-align:center;font-weight:600;margin:22px 0}
+  .cta:hover{opacity:.92}
+  .cta small{display:block;font-weight:400;opacity:.85;margin-top:3px;font-size:13px}
+  .muted{color:var(--muted);font-size:14px}
+  footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);
+    color:var(--muted);font-size:13px;text-align:center}
+  footer a{color:var(--brand)}
+  .toc{background:var(--brand-soft);border-radius:10px;padding:14px 18px;margin:24px 0}
+  .toc ol{margin:6px 0 0;padding-left:20px}
+  .toc a{color:var(--fg)}
 </style>
-<h1>💬 WhatsApp AI 客服</h1>
-<p>在你的服务器上执行这一条命令即可安装：</p>
-<pre><code>curl -fsSL https://oceanlightglobal.github.io/wa-cs-install/install.sh | sudo bash</code></pre>
-<p class="muted">安装完成后，屏幕会打印后台地址和初始密码。</p>
-<h3>系统要求</h3>
-<ul class="muted">
-  <li>Ubuntu 22.04 或 24.04</li>
-  <li>1GB 以上内存（建议 2GB）</li>
-  <li>80 和 443 端口未被占用，且在云平台安全组里已放行</li>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="logo">💬</div>
+  <h1>WhatsApp AI 客服</h1>
+  <p class="sub">顾客在 WhatsApp 问问题，AI 24 小时替你回。答不上来的，才叫你。</p>
+</header>
+
+<div class="box tip">
+  <b>装在你自己的服务器上</b>
+  聊天记录和顾客资料都在你的机器里，我们碰不到。你随时可以导出或停用。
+</div>
+
+<div class="toc">
+  <b>整个流程大概 3–5 天</b>
+  <ol>
+    <li><a href="#prep">开通前准备</a>（今天就能做）</li>
+    <li><a href="#whatsapp">申请 WhatsApp 商业号</a>（要等 1–3 天审核）</li>
+    <li><a href="#install">安装系统</a>（5 分钟）</li>
+    <li><a href="#setup">填资料、上线</a>（30–60 分钟）</li>
+  </ol>
+</div>
+
+<h2 id="prep">第一部分 · 开通前准备</h2>
+
+<p>三样东西，缺一样都装不起来。<b>建议今天就开始准备</b>——第二部分要等官方审核，
+你正好可以在等待期间把这些做完。</p>
+
+<div class="step">
+  <div class="num">1</div>
+  <div class="step-body">
+    <h3>一个没在用的手机号</h3>
+    <div class="box stop">
+      <b>⚠️ 这一条最重要，请务必看完</b>
+      号码接入之后，<b class="inline">手机上的 WhatsApp Business App 就收不到这个号的消息了</b>。
+      所有顾客消息会进到网页后台。<br><br>
+      这是 WhatsApp 官方的规定，不是我们的限制。所以
+      <b class="inline">千万不要用你的私人号或正在用的主力客服号</b>，建议专门办一张新卡。
+    </div>
+    <p class="muted">要求：能收短信验证码。</p>
+  </div>
+</div>
+
+<div class="step">
+  <div class="num">2</div>
+  <div class="step-body">
+    <h3>一台云服务器</h3>
+    <div class="tbl"><table>
+      <tr><th>内存</th><td><b>2GB</b>（1GB 勉强能跑，不推荐）</td></tr>
+      <tr><th>系统</th><td><b>Ubuntu 24.04</b></td></tr>
+      <tr><th>硬盘</th><td>20GB</td></tr>
+      <tr><th>机房</th><td><b>新加坡</b>（东南亚速度最快）</td></tr>
+      <tr><th>去哪开</th><td>OVHcloud / DigitalOcean / Vultr 都可以，约 RM30/月</td></tr>
+    </table></div>
+    <div class="box warn">
+      <b>⚠️ 开好之后一定要做这一步</b>
+      到云服务商的控制台，把 <b class="inline">80 和 443 端口</b>在「安全组 / Firewall」里放行。<br><br>
+      不做这一步，后面申请不到 HTTPS 证书，网页打不开。
+      <b class="inline">这是所有安装失败原因里最常见的一个。</b>
+    </div>
+    <p class="muted">开好后记下：<b>公网 IP</b>（形如 <code>139.99.89.252</code>）和 <b>root 密码</b>。</p>
+  </div>
+</div>
+
+<div class="step">
+  <div class="num">3</div>
+  <div class="step-body">
+    <h3>顾客最常问的 10 个问题和答案 ⭐</h3>
+    <p><b>这一步决定机器人聪不聪明，也是最花时间的一步。</b>
+    这里写的是<b>只属于你这家店的事实</b>——价格、地址、时间、规矩。机器人只会照说，一个字都不会编。</p>
+    <p class="muted">这一行的通用常识（比如餐饮的过敏原、订位规矩、外送平台怎么处理）机器人自己就懂，
+    <b>你不用写</b>。它会用常识帮顾客判断和引导，但只有你写的才会当成你家的承诺说出口。</p>
+    <p>建议现在就打开记事本，把这些写下来：</p>
+    <ul>
+      <li>营业时间（包括公共假期开不开）</li>
+      <li>地址、附近地标、有没有停车位</li>
+      <li>送不送货、送到哪些区、运费多少、几天到</li>
+      <li>可以怎么付款</li>
+      <li>能不能退换货、条件是什么</li>
+      <li>主要卖什么、价格大概什么范围</li>
+    </ul>
+    <div class="box warn">
+      <b>常见错误：把「指令」当成「资料」</b>
+      ❌ 「请礼貌地接待顾客，不确定就转人工」—— 这是给机器人的指令，系统里本来就有<br>
+      ✅ 「每天早上 9 点到晚上 9 点营业，公共假期照常开」—— 这才是顾客问题的答案
+    </div>
+  </div>
+</div>
+
+<h2 id="whatsapp">第二部分 · 申请 WhatsApp 商业号</h2>
+
+<div class="box warn">
+  <b>🕐 这一步要等 1–3 天</b>
+  操作本身 30 分钟，但 WhatsApp 官方（Meta）审核要 1–3 天。
+  <b class="inline">建议尽早提交</b>。
+</div>
+
+<p>到 <a href="https://www.ycloud.com" target="_blank" rel="noopener">ycloud.com</a> 注册账号，然后：</p>
+
+<h3>① 选对入口（很容易选错）</h3>
+<pre><code>WhatsApp 账户 → 创建渠道账号 → WhatsApp Business APP 共存</code></pre>
+<div class="box stop">
+  <b>不要选普通的「WhatsApp Business API」新建号流程</b>
+  必须选<b class="inline">「共存」</b>。选错了要重新来过。
+</div>
+
+<h3>② 完成 Meta 授权</h3>
+<p>YCloud 会弹出 Meta 的授权窗口，按提示走：选 WhatsApp Business App → Continue →
+核对企业资料 → 时区选 <code>Asia/Kuala Lumpur</code> → 确认企业网站 → Finish。</p>
+
+<p class="muted">几个常见卡点：</p>
+<div class="tbl"><table>
+  <tr><th>现象</th><th>怎么办</th></tr>
+  <tr><td>按钮一直转圈、变灰</td><td>刷新页面，关掉提示弹窗后重试</td></tr>
+  <tr><td>点了没反应，弹窗不出来</td><td>用真实鼠标点，别用浏览器插件自动点</td></tr>
+  <tr><td>要求邮箱 / 短信验证码</td><td>正常流程，必须账号持有人本人完成</td></tr>
+  <tr><td>企业资料的 Next 点不动</td><td>网站字段清空重填，用 Meta 自动带出的网址</td></tr>
+</table></div>
+
+<h3>③ 拿 API Key</h3>
+<p><code>YCloud 控制台 → Developers → API Key</code>，点「查看」可能要验证码，
+验证后会显示完整的 Key。<b>先复制存好，第四部分要用。</b></p>
+
+<a class="cta" href="https://wa.me/60182701886?text=%E4%BD%A0%E5%A5%BD%EF%BC%8CWhatsApp%20%E5%95%86%E4%B8%9A%E5%8F%B7%E7%94%B3%E8%AF%B7%E5%8D%A1%E4%BD%8F%E4%BA%86%EF%BC%8C%E9%9C%80%E8%A6%81%E5%8D%8F%E5%8A%A9">
+  这一步卡住了？找我们
+  <small>这是整个流程里最容易卡的地方，我们可以代你办</small>
+</a>
+
+<h2 id="install">第三部分 · 安装系统（5 分钟）</h2>
+
+<h3>① 登录你的服务器</h3>
+<p><b>Windows</b>：按 <code>Win + R</code> → 输入 <code>cmd</code> → 回车，然后输入：</p>
+<pre><code>ssh root@你的服务器IP</code></pre>
+<p><b>Mac</b>：打开「终端」，输入同样的命令。</p>
+<p class="muted">
+第一次登录会问 <code>Are you sure you want to continue connecting?</code>，输入 <code>yes</code> 回车。<br>
+输密码时<b>屏幕上不会显示任何字符，这是正常的</b>，输完直接回车。
+</p>
+
+<h3>② 粘贴这一条命令</h3>
+<pre id="cmd"><button class="copy" onclick="copyCmd()">复制</button><code>curl -fsSL https://oceanlightglobal.github.io/wa-cs-install/install.sh | sudo bash</code></pre>
+<p class="muted">Windows 命令行里粘贴是<b>点鼠标右键</b>，不是 Ctrl+V。</p>
+
+<h3>③ 等 3–8 分钟</h3>
+<p>它会自己安装 Docker、申请 HTTPS 证书、启动服务。跑完会打印<b>最重要的两行</b>：</p>
+<pre><code>════════════════════════════════════════════
+  ✅ 安装完成！
+════════════════════════════════════════════
+
+    后台地址：  https://139-99-89-252.sslip.io
+    登录密码：  Kf7mQxRtLpZa</code></pre>
+
+<div class="box tip">
+  <b>💡 不用买域名</b>
+  那个 <code>139-99-89-252.sslip.io</code> 是自动生成的免费网址，直接指向你的服务器，
+  而且有正规的 HTTPS 证书。<br><br>
+  想用自己的域名？先把域名 A 记录指向服务器 IP，然后命令改成
+  <code>... | sudo bash -s -- --domain cs.你的品牌.com</code>
+</div>
+
+<h3>装不上时看这里</h3>
+<div class="tbl"><table>
+  <tr><th>屏幕上出现</th><th>怎么办</th></tr>
+  <tr><td><code>请用 root 运行</code></td><td>命令前面加 <code>sudo</code></td></tr>
+  <tr><td><code>端口 80 已被占用</code></td><td>服务器上有别的程序，停掉它或换一台干净的</td></tr>
+  <tr><td><code>探测不到本机公网 IP</code></td><td>服务器在 NAT 后面，用 <code>--domain</code> 指定域名</td></tr>
+  <tr><td><code>证书还没签发好</code></td><td><b>八成是 80/443 没放行</b>。到云平台控制台放行，等 1 分钟再刷新</td></tr>
+</table></div>
+
+<h2 id="setup">第四部分 · 填资料，上线</h2>
+
+<p>浏览器打开刚才打印的地址，用打印的密码登录。四步向导：</p>
+
+<div class="step">
+  <div class="num">1</div>
+  <div class="step-body">
+    <h3>改密码</h3>
+    <p>把系统给的随机密码改成你记得住的。<b>这是以后进后台的钥匙。</b></p>
+    <div class="box warn">
+      <b>🔑 接着会出现一串恢复码，只显示这一次</b>
+      形如 <code>WACS-XXXX-XXXX-XXXX</code>。<b>请当场截图或抄下来。</b>
+      忘记密码时用它重置——我们这边也查不到（只存了指纹，没存原文）。
+      它同时也在你下载的备份文件里。
+    </div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="num">2</div>
+  <div class="step-body">
+    <h3>连接 WhatsApp</h3>
+    <p>填两样，都在 YCloud 后台：</p>
+    <ul>
+      <li><b>API Key</b> —— Developers → API Key</li>
+      <li><b>WhatsApp 商业号码</b> —— 格式 <code>60123456789</code>，
+        <b>国际格式，不要加 +，不要空格横杠</b></li>
+    </ul>
+    <p>点「测试连接」，显示绿色的「连接成功」就对了。系统会自动帮你配好回调地址。</p>
+    <p class="muted">之后还要在「连接设置」里填 AI 接口的地址、密钥和模型名——
+      这三样我们会发给你。</p>
+  </div>
+</div>
+
+<div class="step">
+  <div class="num">3</div>
+  <div class="step-body">
+    <h3>选行业 + 填本店资料 ⭐</h3>
+    <p><b>先选行业。</b>选了「餐饮」，机器人就自带这一行的常识：过敏原和清真、怎么推荐菜、
+    订位要问什么、Grab／foodpanda 的单怎么处理、投诉怎么接。<b>这些你一条都不用写。</b></p>
+    <p>然后把你在第一部分写好的内容贴进<b>本店资料</b>。点「插入示例模板」可以看格式。</p>
+    <p><b>这一步决定产品好不好用，其他步骤都只是铺垫。</b>保存后立刻生效，随时可以补充。</p>
+    <p class="muted">懒得从头写？右上角有「从网址导入」——贴一个你自己的网页，
+    机器人整理成草稿填进框里让你改，<b>你点保存才算数</b>。</p>
+  </div>
+</div>
+
+<div class="step">
+  <div class="num">4</div>
+  <div class="step-body">
+    <h3>发条测试消息</h3>
+    <p>用<b>另一部手机</b>给你的商业号发一句「你们几点营业？」，
+    页面会实时显示收到消息、机器人已回复。看到 ✅ 就通了。</p>
+  </div>
+</div>
+
+<div class="box tip">
+  <b>💡 上线前先自己试</b>
+  后台「机器人」页有个<b>「试一试」</b>——直接打一句顾客可能问的话，当场看它怎么答，
+  <b class="inline">不用骚扰真实号码</b>。<br><br>
+  答得不好？改本店资料，保存，再试。改到满意再对外。
+</div>
+
+<h2>装好之后要知道的三件事</h2>
+
+<h3>① 红点闪 = 有人在等你</h3>
+<p>机器人搞不定的时候会转给你，后台亮红点、响提示音。
+你直接在框里打字回复，顾客在 WhatsApp 上就收到了。
+回完点「交还给机器人」，它继续自动答。</p>
+
+<h3>② 那个倒计时是 WhatsApp 的规定</h3>
+<div class="box warn">
+  <b>24 小时窗口</b>
+  顾客给你发消息后，你只有 <b class="inline">24 小时</b>能自由回复，超时只能发审核过的模板消息。<br><br>
+  所以每个对话上面有倒计时。显示「窗口已关闭」时输入框会锁上——
+  <b class="inline">这不是故障，是 WhatsApp 的规定</b>。顾客再发一条消息就会重新开始。
+</div>
+
+<h3>③ 每月下载一次备份</h3>
+<p>「系统」→「下载备份」，存到你自己的电脑或云盘。换服务器时能一键还原。</p>
+
+<h2>常见问题</h2>
+
+<h3>机器人会不会乱说话，得罪我的客户？</h3>
+<p><b>关于你这家店的事实——价格、地址、时间、规矩——它只会照着你写的说，一个字都不会编</b>，
+也不会替你承诺任何折扣或赔偿金额。</p>
+<p>你没写的事，它不会硬答，但也不会一句「查不到」就把顾客丢给你：
+它会说明这一行一般是怎么处理的、问清关键信息，真需要你出面时再交给你，而且信息已经问齐了。
+上线前你可以用「试一试」先自己问几句。</p>
+
+<h3>它会主动给我的客户群发广告吗？</h3>
+<p>不会。它只被动回复顾客发来的消息，不会主动发起对话。</p>
+
+<h3>我的客户数据安全吗？</h3>
+<p>所有聊天记录存在<b>你自己的服务器</b>上，我们碰不到。
+系统日志里顾客手机号自动打码（<code>6012*****89</code>），符合 PDPA。</p>
+
+<h3>机器人答错了怎么办？</h3>
+<p>八成是本店资料没写清楚。补进去，保存，立刻生效，不用重启。</p>
+<p>更省事的办法：你人工回完那条之后，在收件箱点<b>「学进资料」</b>——
+机器人会把这一问一答整理成一条资料，你确认一下就加进去了。
+下次再有人问同样的事，它自己就能答。<b>用得越多，找你的次数越少。</b></p>
+
+<h3>忘记后台密码了怎么办？</h3>
+<p>登录页点「忘记密码」，有三条路：</p>
+<ul>
+  <li><b>用 WhatsApp 收验证码（最快）</b>——用你自己的手机给你的商业号发一条 <code>RESET</code>，
+    几秒后收到 6 位码。前提是你在「机器人 → 通知老板」填过自己的号码，<b>建议装好就去填</b>。</li>
+  <li><b>用恢复码</b>——装机时那串 <code>WACS-</code> 开头的码，备份文件里也有一份。</li>
+  <li><b>在服务器上重置</b>——前两条都不行时找我们，三行命令搞定，其他数据一点都不动。</li>
 </ul>
-<p class="muted">不需要买域名——安装脚本会自动生成一个带 HTTPS 证书的地址。</p>
+
+<h3>能随时不用吗？</h3>
+<p>能。数据一键导出备份，服务器是你的，随时停。</p>
+
+<h2>需要帮忙？</h2>
+
+<a class="cta" href="https://wa.me/60182701886?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E4%BA%86%E8%A7%A3%20WhatsApp%20AI%20%E5%AE%A2%E6%9C%8D">
+  WhatsApp 联系我们
+  <small>不会装？我们可以代办全套开通</small>
+</a>
+
+<p class="muted">
+报障时请附上两样：后台「系统」页看到的<b>版本号</b>，
+以及服务器上执行这条命令的输出（<b>里面不含顾客的完整手机号，可以放心发</b>）：
+</p>
+<pre><code>cd /opt/wa-cs &amp;&amp; sudo docker compose logs --tail 50 app</code></pre>
+
+<footer>
+  Sator AI Technology Sdn Bhd ·
+  <a href="https://www.gosator.com" target="_blank" rel="noopener">www.gosator.com</a><br>
+  <a href="install.sh">install.sh</a> ·
+  <a href="version.json">version.json</a>
+</footer>
+
+</div>
+
+<script>
+function copyCmd(){
+  var el = document.querySelector('#cmd code');
+  var btn = document.querySelector('#cmd .copy');
+  navigator.clipboard.writeText(el.innerText).then(function(){
+    btn.textContent = '已复制 ✓';
+    setTimeout(function(){ btn.textContent = '复制'; }, 1800);
+  }).catch(function(){
+    btn.textContent = '请手动选中复制';
+  });
+}
+</script>
+</body>
+</html>
